@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Обновляем пользователя</title>
+</head>
+<body>
+<div>
+  <form th:method="POST" th:action="@{/users/update/{id}(id=${person.getId()})}" th:object="${person}">
+    <label for="name">Ваше новое имя: </label>
+    <input type="text" th:field="*{name}" id="name/">
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" >Name error</div>
+    <br/>
+<!--    <label for="surname">Ваша новая фамилия: </label>-->
+<!--    <input type="text" th:field="*{surname}" id="surname/">-->
+<!--    <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" >Name error</div>-->
+    <br/>
+    <label for="age">Ваш новый возраст: </label>
+    <input type="number" th:field="*{age}" id="age/">
+    <div style="color:red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}" >Name error</div>
+    <br/>
+    <br/>
+    <label for="email">Ваш новый email: </label>
+    <input type="text" th:field="*{email}" id="email/">
+    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" >Name error</div>
+    <br/>
+    <input type="submit" value="Обновить!">
+  </form>
+</div>
+</body>
+</html>
