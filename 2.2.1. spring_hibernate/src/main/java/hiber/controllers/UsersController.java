@@ -1,12 +1,12 @@
 package hiber.controllers;
 
 import hiber.model.Person;
+import hiber.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import hiber.dao.*;
 
 import javax.validation.Valid;
 
@@ -14,22 +14,22 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 public class UsersController {
 
-    private final PersonDAO userDAO;
+    private final PersonService personService;
 
     @Autowired
-    public UsersController(PersonDAO userDAO) {
-        this.userDAO = userDAO;
+    public UsersController(PersonService personService) {
+        this.personService = personService;
     }
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("people", userDAO.index());
+        model.addAttribute("people", personService.index());
         return "users";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", userDAO.show(id));
+        model.addAttribute("person", personService.show(id));
         return "show";
     }
     @GetMapping("/new")
@@ -43,12 +43,12 @@ public class UsersController {
         if (bindingResult.hasErrors()) {
             return "new";
         }
-        userDAO.save(user);
+        personService.save(user);
         return "redirect:/users";
     }
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id")int id) {
-        model.addAttribute(userDAO.show(id));
+        model.addAttribute(personService.show(id));
         return "edit";
     }
     @PostMapping("/update/{id}")
@@ -56,13 +56,13 @@ public class UsersController {
         if (bindingResult.hasErrors()) {
             return "edit";
         }
-        userDAO.update(user);
+        personService.update(user);
         return "redirect:/users";
     }
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id")int id) {
-        userDAO.delete(id);
+        personService.delete(id);
         return "redirect:/users";
     }
 }
